@@ -42,8 +42,6 @@ public sealed partial class MainWindow
         try
         {
             wheel = new WheelController(this);
-            // Let's disable centering until set otherwise (via robot code)
-            wheel.PlayConstantForce(0);
         }
         catch (JoystickNotConnectedException e)
         {
@@ -108,11 +106,15 @@ public sealed partial class MainWindow
             {
                 // Poll wheel
                 wheel.Poll();
-                if (forceFeedbackConnected)
+                if (robotConnected && forceFeedbackConnected)
                 {
                     // Set force feedback
                     var magnitude = forceFeedbackTable.GetNumber("magnitude", 0.0);
                     wheel.PlayConstantForce(magnitude);
+                }
+                else
+                {
+                    wheel.PlayConstantForce(0.0);
                 }
             }
             catch (JoystickNotConnectedException e)

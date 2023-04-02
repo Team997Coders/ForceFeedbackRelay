@@ -44,7 +44,7 @@ public sealed partial class MainWindow
 
         NetworkTable.AddGlobalConnectionListener((remote, connection, b) =>
         {
-            Debug.WriteLine("CONNECTED");
+            Debug.WriteLine("NetworkTables connected");
         }, true);
 
         try
@@ -86,11 +86,10 @@ public sealed partial class MainWindow
 
     private async void ReadTeamNumber()
     {
-        Debug.WriteLine("Calling this");
-        var cache = ApplicationData.Current.LocalCacheFolder;
-        Debug.WriteLine("Got Cache");
+        var cache = await (await StorageFolder.GetFolderFromPathAsync(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)))
+            .CreateFolderAsync("ForceFeedbackMonitor", CreationCollisionOption.OpenIfExists);
         var teamNumberFile = await cache.CreateFileAsync("team-number", CreationCollisionOption.OpenIfExists);
-        Debug.WriteLine("Created File");
         var teamNumber = await FileIO.ReadTextAsync(teamNumberFile);
         Debug.WriteLine("Got Team Number: "+teamNumber);
         DispatcherQueue.TryEnqueue(() =>
@@ -109,7 +108,7 @@ public sealed partial class MainWindow
         var liveWindowTable = NetworkTable.GetTable("LiveWindow");
         robotConnected = liveWindowTable.IsConnected;
         var forceFeedbackTable = NetworkTable.GetTable("ForceFeedback");
-        forceFeedbackConnected = forceFeedbackTable.ContainsKey("enabled");
+        forceFeedbackConnected = forceFeedbackTable.GetBoolean("enabled", false);
 
         if (wheel != null)
         {
@@ -120,7 +119,8 @@ public sealed partial class MainWindow
                 if (forceFeedbackConnected)
                 {
                     // Set force feedback
-
+                    var magnitude = forceFeedbackTable.GetNumber("magnitude", 0.0);
+                    wheel.PlayConstantForce(magnitude);
                 }
             }
             catch (JoystickNotConnectedException e)
@@ -174,7 +174,9 @@ public sealed partial class MainWindow
                     Debug.WriteLine("NetworkTables initialized.");
 
                     // Save team number
-                    var cache = ApplicationData.Current.LocalCacheFolder;
+                    var cache = await (await StorageFolder.GetFolderFromPathAsync(
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)))
+                        .CreateFolderAsync("ForceFeedbackMonitor", CreationCollisionOption.OpenIfExists);
                     var teamNumberFile = await cache.CreateFileAsync("team-number", CreationCollisionOption.OpenIfExists);
                     await FileIO.WriteTextAsync(teamNumberFile, teamNumberText);
                 });
@@ -192,6 +194,8 @@ public sealed partial class MainWindow
         // Set axis indicators
         if (wheel != null)
         {
+            ForceBar.Value = -wheel.FeedbackMagnitude;
+
             SteeringBar.Value = wheel.SteeringAxis;
             ThrottleBar.Value = -wheel.ThrottleAxis;
             BrakeBar.Value = -wheel.BrakeAxis;

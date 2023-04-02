@@ -62,6 +62,8 @@ internal class WheelController
     public double BrakeAxis { get; private set; }
     public double ClutchAxis { get; private set; }
 
+    public double FeedbackMagnitude { get; private set; }
+
     public void Poll()
     {
         if (wheel == null) return;
@@ -96,8 +98,9 @@ internal class WheelController
     }
 
     private Effect lastEffect;
-    public void PlayConstantForce(double force)
+    public void PlayConstantForce(double magnitude)
     {
+        FeedbackMagnitude = magnitude;
         try
         {
             var effectParams = new EffectParameters
@@ -113,7 +116,7 @@ internal class WheelController
             effectParams.SetAxes(axes, new int[] { 0 });
             var cf = new ConstantForce
             {
-                Magnitude = (int)(wheel.Properties.ForceFeedbackGain * force)
+                Magnitude = (int)(wheel.Properties.ForceFeedbackGain * magnitude)
             };
             effectParams.Parameters = cf;
 

@@ -23,6 +23,7 @@ public sealed partial class MainWindow
     private readonly DispatcherQueueTimer uiUpdateTimer;
     public MainWindow()
     {
+        // TODO Handle app shutdown
         InitializeComponent();
 
         // Custom title bar and background
@@ -52,7 +53,7 @@ public sealed partial class MainWindow
         // Start Joystick Loop
         pollDispatcherQueueController = DispatcherQueueController.CreateOnDedicatedThread();
         pollTimer = pollDispatcherQueueController.DispatcherQueue.CreateTimer();
-        pollTimer.Interval = TimeSpan.FromMilliseconds(5);
+        pollTimer.Interval = TimeSpan.FromMilliseconds(10);
         pollTimer.Tick += Poll;
         pollTimer.Start();
 
@@ -95,10 +96,16 @@ public sealed partial class MainWindow
     private void Poll(DispatcherQueueTimer timer, object state)
     {
         // Poll network tables
+        // TODO This needs a big refactor
         var liveWindowTable = NetworkTable.GetTable("LiveWindow");
         robotConnected = liveWindowTable.IsConnected;
         var forceFeedbackTable = NetworkTable.GetTable("ForceFeedback");
         forceFeedbackConnected = forceFeedbackTable.GetBoolean("enabled", false);
+
+        // Get effect tables
+        var constantForceTable = forceFeedbackTable.GetSubTable("ConstantForce");
+        var damperForceTable = forceFeedbackTable.GetSubTable("DamperForce");
+        var springForceTable = forceFeedbackTable.GetSubTable("SpringForce");
 
         if (wheel != null)
         {
@@ -109,12 +116,35 @@ public sealed partial class MainWindow
                 if (robotConnected && forceFeedbackConnected)
                 {
                     // Set force feedback
-                    var magnitude = forceFeedbackTable.GetNumber("magnitude", 0.0);
-                    wheel.PlayConstantForce(magnitude);
+                    // Constant force
+                    {
+                        var magnitude = constantForceTable.GetNumber("magnitude", 0.0);
+                        wheel.PlayConstantForce(magnitude);
+                    }
+                    // Damper force
+                    {
+                        var negativeResistance = damperForceTable.GetNumber("negativeResistance", 0.0);
+                        var positiveResistance = damperForceTable.GetNumber("positiveResistance", 0.0);
+                        var constantForce = damperForceTable.GetNumber("constantForce", 0.0);
+                        var deadBand = damperForceTable.GetNumber("deadBand", 0.0);
+                        wheel.PlayDamperForce(negativeResistance, positiveResistance, constantForce, deadBand);
+                    }
+                    // Spring force
+                    {
+                        var negativeSaturation = springForceTable.GetNumber("negativeSaturation", 0.0);
+                        var positiveSaturation = springForceTable.GetNumber("positiveSaturation", 0.0);
+                        var negativeGain = springForceTable.GetNumber("negativeGain", 0.0);
+                        var positiveGain = springForceTable.GetNumber("positiveGain", 0.0);
+                        var centerPoint = springForceTable.GetNumber("centerPoint", 0.0);
+                        var deadBand = springForceTable.GetNumber("deadBand", 0.0);
+                        wheel.PlaySpringForce(negativeSaturation, positiveSaturation, negativeGain, positiveGain, centerPoint, deadBand);
+                    }
                 }
                 else
                 {
                     wheel.PlayConstantForce(0.0);
+                    wheel.PlayDamperForce(0.0, 0.0, 0.0, 0.0);
+                    wheel.PlaySpringForce(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
                 }
             }
             catch (JoystickNotConnectedException e)
@@ -140,8 +170,6 @@ public sealed partial class MainWindow
                 try
                 {
                     wheel = new WheelController(this);
-                    // Let's disable centering until set otherwise (via robot code)
-                    wheel.PlayConstantForce(0);
                 }
                 catch (JoystickNotConnectedException e)
                 {
@@ -188,7 +216,7 @@ public sealed partial class MainWindow
         // Set axis indicators
         if (wheel != null)
         {
-            ForceBar.Value = -wheel.FeedbackMagnitude;
+            ForceBar.Value = wheel.ConstantForceMagnitude;
 
             SteeringBar.Value = wheel.SteeringAxis;
             ThrottleBar.Value = -wheel.ThrottleAxis;

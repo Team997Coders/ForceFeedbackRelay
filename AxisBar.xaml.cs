@@ -1,13 +1,6 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using System.Globalization;
 using System;
-using System.Diagnostics;
-using NetworkTables;
 
 namespace ForceFeedbackRelay;
 

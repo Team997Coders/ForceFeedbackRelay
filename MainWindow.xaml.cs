@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 using System;
 using System.Diagnostics;
 using Windows.Storage;
@@ -11,9 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using NetworkTables;
 using WinRT;
 using WindowActivatedEventArgs = Microsoft.UI.Xaml.WindowActivatedEventArgs;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace ForceFeedbackRelay;
 

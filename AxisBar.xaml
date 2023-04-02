@@ -1,0 +1,33 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<UserControl
+    x:Class="ForceFeedbackMonitorWinUI.AxisBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ForceFeedbackMonitorWinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!-- <TextBlock Text="{x:Bind Orientation}"></TextBlock> -->
+    <Grid CornerRadius="5, 5, 5, 5">
+        <Canvas VerticalAlignment="{x:Bind VerticalAlignment}"
+                HorizontalAlignment="{x:Bind HorizontalAlignment}"
+                Height="{x:Bind Height}"
+                Width="{x:Bind Width}">
+            <Rectangle Canvas.ZIndex="0"
+                       x:Name="ProgressBarBackground"
+                       Height="{x:Bind ActualHeight}"
+                       Width="{x:Bind ActualWidth}"
+                       Fill="{ThemeResource ProgressBarBackgroundThemeBrush}"/>
+            <Rectangle Canvas.ZIndex="1"
+                       x:Name="ProgressBarIndicator"
+                       Height="{x:Bind ActualHeight}"
+                       Width="{x:Bind ActualWidth}"
+                       RadiusX="{x:Bind Radius}"
+                       RadiusY="{x:Bind Radius}"
+                       Fill="{ThemeResource SystemAccentColorLight2}"/>
+        </Canvas>
+    </Grid>
+</UserControl>

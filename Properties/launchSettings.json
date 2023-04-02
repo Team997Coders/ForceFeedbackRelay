@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ForceFeedbackMonitorWinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ForceFeedbackMonitorWinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

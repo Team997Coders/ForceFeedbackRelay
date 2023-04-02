@@ -1,11 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Windows.Graphics;
-using Windows.UI.Popups;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Squirrel;
 using WinRT.Interop;
 
 namespace ForceFeedbackRelay;
@@ -24,28 +20,7 @@ public partial class App
     /// </summary>
     public App()
     {
-        // before initialization, check for updates
-        SquirrelAwareApp.HandleEvents(
-            onInitialInstall: OnAppInstall,
-            onAppUninstall: OnAppUninstall,
-            onEveryRun: OnAppRun);
-
         InitializeComponent();
-    }
-
-    private static void OnAppInstall(SemanticVersion version, IAppTools tools)
-    {
-        tools.CreateShortcutForThisExe(ShortcutLocation.StartMenu | ShortcutLocation.Desktop);
-    }
-
-    private static void OnAppUninstall(SemanticVersion version, IAppTools tools)
-    {
-        tools.RemoveShortcutForThisExe(ShortcutLocation.StartMenu | ShortcutLocation.Desktop);
-    }
-
-    private static void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
-    {
-        tools.SetProcessAppUserModelId();
     }
 
     /// <summary>

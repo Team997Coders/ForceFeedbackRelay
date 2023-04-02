@@ -80,7 +80,7 @@ public sealed partial class MainWindow
     {
         var cache = await (await StorageFolder.GetFolderFromPathAsync(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)))
-            .CreateFolderAsync("ForceFeedbackMonitor", CreationCollisionOption.OpenIfExists);
+            .CreateFolderAsync("ForceFeedbackRelay", CreationCollisionOption.OpenIfExists);
         var teamNumberFile = await cache.CreateFileAsync("team-number", CreationCollisionOption.OpenIfExists);
         var teamNumber = await FileIO.ReadTextAsync(teamNumberFile);
         Debug.WriteLine("Got Team Number: "+teamNumber);
@@ -168,7 +168,7 @@ public sealed partial class MainWindow
                     // Save team number
                     var cache = await (await StorageFolder.GetFolderFromPathAsync(
                         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)))
-                        .CreateFolderAsync("ForceFeedbackMonitor", CreationCollisionOption.OpenIfExists);
+                        .CreateFolderAsync("ForceFeedbackRelay", CreationCollisionOption.OpenIfExists);
                     var teamNumberFile = await cache.CreateFileAsync("team-number", CreationCollisionOption.OpenIfExists);
                     await FileIO.WriteTextAsync(teamNumberFile, teamNumberText);
                 });

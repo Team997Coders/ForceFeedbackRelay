@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForceFeedbackMonitorWinUI", "ForceFeedbackMonitorWinUI.csproj", "{004DBCA4-C250-4098-A55E-CE9FD2501CC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForceFeedbackRelay", "ForceFeedbackRelay.csproj", "{004DBCA4-C250-4098-A55E-CE9FD2501CC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

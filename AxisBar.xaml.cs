@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics;
 using NetworkTables;
 
-namespace ForceFeedbackMonitorWinUI;
+namespace ForceFeedbackRelay;
 
 public sealed partial class AxisBar
 {

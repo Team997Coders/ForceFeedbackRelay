@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ForceFeedbackMonitorWinUI;
+namespace ForceFeedbackRelay;
 
 public class WindowsSystemDispatcherQueueHelper
 {

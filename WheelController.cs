@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.UI.Xaml;
 
-namespace ForceFeedbackMonitorWinUI;
+namespace ForceFeedbackRelay;
 
 internal class JoystickNotConnectedException : Exception
 {

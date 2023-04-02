@@ -4,20 +4,18 @@
 using System;
 using System.Diagnostics;
 using Windows.Storage;
-using ABI.Windows.UI;
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using NetworkTables;
 using WinRT;
-using static System.Net.Mime.MediaTypeNames;
 using WindowActivatedEventArgs = Microsoft.UI.Xaml.WindowActivatedEventArgs;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace ForceFeedbackMonitorWinUI;
+namespace ForceFeedbackRelay;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
@@ -34,7 +32,7 @@ public sealed partial class MainWindow
         InitializeComponent();
 
         // Custom title bar and background
-        Title = "Force Feedback Monitor";
+        Title = "Force Feedback Relay";
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBar);
         TrySetMicaBackdrop();

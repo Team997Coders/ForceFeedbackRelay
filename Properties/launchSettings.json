@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "ForceFeedbackMonitorWinUI (Package)": {
+    "ForceFeedbackRelay (Package)": {
       "commandName": "MsixPackage"
     },
-    "ForceFeedbackMonitorWinUI (Unpackaged)": {
+    "ForceFeedbackRelay (Unpackaged)": {
       "commandName": "Project"
     }
   }

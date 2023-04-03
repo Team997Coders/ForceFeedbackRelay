@@ -37,7 +37,7 @@ public partial class App
         appWindow = AppWindow.GetFromWindowId(windowId);
         var presenter = appWindow.Presenter as OverlappedPresenter;
 
-        appWindow.Resize(new SizeInt32(780, 300));
+        appWindow.Resize(new SizeInt32(880, 260));
         if (presenter != null) presenter.IsResizable = false;
 
         window.Activate();

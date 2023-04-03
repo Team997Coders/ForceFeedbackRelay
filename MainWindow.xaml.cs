@@ -213,15 +213,25 @@ public sealed partial class MainWindow
         ControllerConnectionIndicator.Fill = new SolidColorBrush(wheel != null ? Colors.GreenYellow : Colors.Red);
         RobotConnectionIndicator.Fill = new SolidColorBrush(robotConnected ? Colors.GreenYellow : Colors.Red);
         ForceFeedbackIndicator.Fill = new SolidColorBrush(forceFeedbackConnected ? Colors.GreenYellow : Colors.Red);
-        // Set axis indicators
         if (wheel != null)
         {
-            ForceBar.Value = wheel.ConstantForceMagnitude;
-
+            // Set axis indicators
             SteeringBar.Value = wheel.SteeringAxis;
             ThrottleBar.Value = -wheel.ThrottleAxis;
             BrakeBar.Value = -wheel.BrakeAxis;
             ClutchBar.Value = -wheel.ClutchAxis;
+            // Set constant/damper force indicators
+            ConstantForceBar.Value = wheel.ConstantForceMagnitude + wheel.DamperActualConstantForce;
+            DamperNegativeResistanceBar.Value = wheel.DamperNegativeResistance;
+            DamperPositiveResistanceBar.Value = wheel.DamperPositiveResistance;
+            DamperDeadBandBar.Value = wheel.DamperDeadBand;
+            // Set spring force indicators
+            SpringCenterPointBar.Value = wheel.SpringCenterPoint;
+            SpringNegativeSaturationBar.Value = wheel.SpringNegativeSaturation;
+            SpringPositiveSaturationBar.Value = wheel.SpringPositiveSaturation;
+            SpringNegativeGainBar.Value = wheel.SpringNegativeGain;
+            SpringPositiveGainBar.Value = wheel.SpringPositiveGain;
+            SpringDeadBandBar.Value = wheel.SpringDeadBand;
         }
     }
 

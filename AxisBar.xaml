@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <!-- <TextBlock Text="{x:Bind Orientation}"></TextBlock> -->
-    <Grid CornerRadius="5, 5, 5, 5">
+    <Grid CornerRadius="{x:Bind CornerRadius}">
         <Canvas VerticalAlignment="{x:Bind VerticalAlignment}"
                 HorizontalAlignment="{x:Bind HorizontalAlignment}"
                 Height="{x:Bind Height}"
@@ -25,8 +25,8 @@
                        x:Name="ProgressBarIndicator"
                        Height="{x:Bind ActualHeight}"
                        Width="{x:Bind ActualWidth}"
-                       RadiusX="{x:Bind Radius}"
-                       RadiusY="{x:Bind Radius}"
+                       RadiusX="{x:Bind IndicatorRadius}"
+                       RadiusY="{x:Bind IndicatorRadius}"
                        Fill="{ThemeResource SystemAccentColorLight2}"/>
         </Canvas>
     </Grid>

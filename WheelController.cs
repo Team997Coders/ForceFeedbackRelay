@@ -100,7 +100,7 @@ internal class WheelController
         }
     }
 
-    public double ConstantForceMagnitude { get; private set; }
+    public double ConstantForceMagnitude { get; private set; } = double.PositiveInfinity;
     private Effect constantForceEffect;
 
     public void PlayConstantForce(double magnitude)
@@ -140,10 +140,10 @@ internal class WheelController
         }
     }
 
-    public double DamperNegativeResistance { get; private set; }
-    public double DamperPositiveResistance { get; private set; }
-    public double DamperConstantForce { get; private set; }
-    public double DamperDeadBand { get; private set; }
+    public double DamperNegativeResistance { get; private set; } = double.PositiveInfinity;
+    public double DamperPositiveResistance { get; private set; } = double.PositiveInfinity;
+    public double DamperConstantForce { get; private set; } = double.PositiveInfinity;
+    public double DamperDeadBand { get; private set; } = double.PositiveInfinity;
     private Effect damperEffect;
 
     // TODO proper documentation
@@ -200,13 +200,19 @@ internal class WheelController
             throw new JoystickNotConnectedException(e);
         }
     }
+    public double DamperActualConstantForce
+    {
+        get => DamperConstantForce > 0
+            ? double.Max(DamperConstantForce, DamperNegativeResistance)
+            : double.Min(DamperConstantForce, DamperPositiveResistance);
+    }
 
-    public double SpringNegativeSaturation { get; private set; }
-    public double SpringPositiveSaturation { get; private set; }
-    public double SpringNegativeGain { get; private set; }
-    public double SpringPositiveGain { get; private set; }
-    public double SpringCenterPoint { get; private set; }
-    public double SpringDeadBand { get; private set; }
+    public double SpringNegativeSaturation { get; private set; } = double.PositiveInfinity;
+    public double SpringPositiveSaturation { get; private set; } = double.PositiveInfinity;
+    public double SpringNegativeGain { get; private set; } = double.PositiveInfinity;
+    public double SpringPositiveGain { get; private set; } = double.PositiveInfinity;
+    public double SpringCenterPoint { get; private set; } = double.PositiveInfinity;
+    public double SpringDeadBand { get; private set; } = double.PositiveInfinity;
     private Effect springEffect;
 
     // TODO proper documentation

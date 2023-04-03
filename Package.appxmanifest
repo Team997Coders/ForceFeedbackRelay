@@ -9,7 +9,7 @@
   <Identity
     Name="469bdea9-fcb4-425a-bd94-9aa82f9739fe"
     Publisher="CN=Elliot Nash"
-    Version="1.0.0.0" />
+    Version="1.1.0.0" />
 
   <Properties>
     <DisplayName>Force Feedback Relay</DisplayName>
